@@ -1,15 +1,18 @@
 package pl.pwojaczek.vouchershop.catalog;
 
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class ProductCatalog {
-    private final HashMapProductStorage products;
 
-    public ProductCatalog(){
-        this.products = new HashMapProductStorage();
+public class ProductCatalog {
+    private final ProductStorage products;
+
+    public ProductCatalog(ProductStorage productStorage){
+        this.products = productStorage;
     }
 
     public String registerProduct() {
