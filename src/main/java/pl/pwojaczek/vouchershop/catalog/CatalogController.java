@@ -20,4 +20,7 @@ public class CatalogController {
     public List<Product> allProducts(){
         return catalog.allPublished();
     }
+
+    @GetMapping("/api/names")
+    public List<String> allNames(){return Arrays.asList("");}
 }
