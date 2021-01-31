@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI
 
 on:
   push: ~
@@ -9,12 +9,10 @@ jobs:
   linter:
     runs-on: ubuntu-latest
     steps:
-      - name: "excute code analysis"
-        run: echo "it works"
+      - name: "execute some static code analysis"
+        run: echo "it is OK :)!!"
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.11
@@ -22,4 +20,4 @@ jobs:
         with:
           java-version: 1.11
       - name: Build with Maven
-        run: mvn test
+        run: mvn -B test
