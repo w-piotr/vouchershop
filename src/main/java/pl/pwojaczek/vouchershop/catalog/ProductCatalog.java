@@ -1,49 +1,63 @@
 package pl.pwojaczek.vouchershop.catalog;
 
+import pl.pwojaczek.vouchershop.catalog.exceptions.NoSuchProductException;
+
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class ProductCatalog {
-    private final HashMap<String, Product> products;
 
-    public ProductCatalog(){
-        this.products = new HashMap<>();
+public class ProductCatalog {
+    private final ProductStorage products;
+
+    public ProductCatalog(ProductStorage productStorage) {
+        this.products = productStorage;
     }
 
     public String registerProduct() {
         Product newProduct = new Product(UUID.randomUUID());
-        products.put(newProduct.getId(), newProduct);
+        products.save(newProduct);
         return newProduct.getId();
     }
 
     public boolean isExists(String productId) {
-        return products.containsKey(productId);
+        return  products.isExists(productId);
     }
 
-    public Product load(String productId){
-        return products.get(productId);
+    public Product load(String productId) {
+        return getProductOrThrow(productId);
     }
 
-    public void updateDetails(String productId, String productDescription, String productPicture) {
-        Product loaded = products.get(productId);
-        loaded.setDescription(productDescription);
+    public void updateDetails(String productId, String productDesc, String productPicture) {
+        Product loaded = getProductOrThrow(productId);
+        loaded.setDescription(productDesc);
         loaded.setPicture(productPicture);
-
     }
 
     public void applyPrice(String productId, BigDecimal price) {
-        Product loaded = products.get(productId);
+        Product loaded = getProductOrThrow(productId);
         loaded.setPrice(price);
     }
 
     public List<Product> allPublished() {
-        return products.values()
+        return products.allProducts()
                 .stream()
-                .filter(p-> p.getDescription() != null)
-                .filter(p-> p.getPicture() != null)
+                .filter(p -> p.getDescription() != null)
+                .filter(p -> p.getPicture() != null)
+                .filter(p -> p.getPrice() != null)
                 .collect(Collectors.toList());
     }
+
+    private Product getProductOrThrow(String productId) {
+        return products.load(productId)
+                .orElseThrow(() -> new NoSuchProductException(String.format("There is no product with id %s", productId)));
+    }
+
+    public void clean() {
+        products.clean();
+    }
 }
+
+
