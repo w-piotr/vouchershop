@@ -1,6 +1,7 @@
 package pl.pwojaczek.vouchershop.catalog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,5 +34,11 @@ public class ListProductStorage implements ProductStorage {
 
     @Override
     public List<Product> allProducts() {
+        return Collections.unmodifiableList(products);
+    }
+
+    @Override
+    public void clean() {
+
     }
 }

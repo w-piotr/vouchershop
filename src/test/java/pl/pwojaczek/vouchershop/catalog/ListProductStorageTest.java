@@ -2,49 +2,87 @@ package pl.pwojaczek.vouchershop.catalog;
 
 import org.junit.Assert;
 import org.junit.Test;
+import pl.pwojaczek.vouchershop.catalog.exceptions.NoSuchProductException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class ListProductStorageTest {
+
     @Test
     public void itAllowAddProduct() {
-        Product product = new Product(UUID.randomUUID());
-        HashMapProductStorage productStorage = new HashMapProductStorage();
+        //Arrange
+        ProductStorage productStorage = new ListProductStorage();
+        Product product = ProductFixtures.randomProduct();
+        //Act
         productStorage.save(product);
+        //Assert
         Assert.assertTrue(productStorage.isExists(product.getId()));
-        Assert.assertFalse(productStorage.isExists("NOT_EXISTING_ID"));
     }
-        
+
     @Test
-    public void itAllowLoadAllProducts(){
-        Product product1 = new Product(UUID.randomUUID());
-        Product product2 = new Product(UUID.randomUUID());
-        HashMapProductStorage productStorage = new HashMapProductStorage();
+    public void itAllowLoadAllProducts() {
+        //Arrange
+        ProductStorage productStorage = new ListProductStorage();
+        var product1 = ProductFixtures.randomProduct();
+        var product2 = ProductFixtures.randomProduct();
+
+        //Act
         productStorage.save(product1);
         productStorage.save(product2);
 
-        HashMap<String, Product> products = new HashMap<>();
-        products.put(product1.getId(),product1);
-        products.put(product2.getId(),product2);
-
-        Assert.assertEquals(productStorage.allProducts(), new ArrayList<>(products.values()));
+        //Assert
+        List<Product> all = productStorage.allProducts();
+        assertThat(all)
+                .hasSize(2)
+                .extracting(Product::getId)
+                .contains(product1.getId())
+                .contains(product2.getId())
+        ;
     }
 
     @Test
-    public void itAllowCheckIfProductExists(){
-        Product product = new Product(UUID.randomUUID());
-        HashMapProductStorage productStorage = new HashMapProductStorage();
-        productStorage.save(product);
+    public void itAllowCheckIfProductExists() {
+        ProductStorage productStorage = new ListProductStorage();
+        var product1 = ProductFixtures.randomProduct();
 
-        Assert.assertTrue(productStorage.isExists(product.getId()));
-        Assert.assertFalse(productStorage.isExists("NOT_EXISTING_ID"));
+        productStorage.save(product1);
+
+        assertThat(productStorage.isExists(product1.getId()))
+                .isTrue();
+        assertThat(productStorage.isExists(UUID.randomUUID().toString()))
+                .isFalse();
     }
 
     @Test
-    public void testIt(){
+    public void itAllowLoadSingleProduct() {
+        ProductStorage productStorage = new ListProductStorage();
+        var product1 = ProductFixtures.randomProduct();
+
+        productStorage.save(product1);
+
+        var loaded = productStorage.load(product1.getId())
+                .get();
+
+        assertThat(loaded.getId())
+                .isEqualTo(product1.getId());
+    }
+
+    @Test(expected = NoSuchProductException.class)
+    public void itSholuldProtectFromDefenseProgramming() {
+        ProductStorage productStorage = new ListProductStorage();
+
+        var loaded = productStorage.load(UUID.randomUUID().toString())
+                .orElseThrow(() -> new NoSuchProductException("no such product"));
+    }
+
+    @Test
+    public void testIt() {
         assertThat("Ala ma kota").containsIgnoringCase("ala");
+        assertThat(Arrays.asList("kuba", "michal", "artur"))
+                .hasSize(3)
+                .contains("kuba", "michal")
+                .doesNotContain("pawel");
     }
 }

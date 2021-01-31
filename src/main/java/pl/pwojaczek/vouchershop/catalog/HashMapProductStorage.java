@@ -24,11 +24,15 @@ public class HashMapProductStorage implements ProductStorage {
 
     @Override
     public Optional<Product> load(String productId) {
-        return products.get(productId);
+        return Optional.ofNullable(products.get(productId));
     }
 
     @Override
     public List<Product> allProducts() {
         return new ArrayList<>((products.values()));
+    }
+
+    @Override
+    public void clean() {
     }
 }
