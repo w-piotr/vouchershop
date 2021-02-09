@@ -34,5 +34,6 @@ public class HashMapProductStorage implements ProductStorage {
 
     @Override
     public void clean() {
+        products.clear();
     }
 }
