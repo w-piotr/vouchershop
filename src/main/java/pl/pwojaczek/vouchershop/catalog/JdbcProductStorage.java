@@ -26,6 +26,6 @@ public class JdbcProductStorage implements ProductStorage {
 
     @Override
     public void clean() {
-
+        allProducts().clear();
     }
 }

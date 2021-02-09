@@ -39,6 +39,6 @@ public class ListProductStorage implements ProductStorage {
 
     @Override
     public void clean() {
-
+        products.clear();
     }
 }
