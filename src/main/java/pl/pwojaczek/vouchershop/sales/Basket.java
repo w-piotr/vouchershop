@@ -19,12 +19,24 @@ public class Basket {
     }
 
     public void add(Product product){
-        products.put(product.getId(), product);
-        if(productsQuantities.containsKey(product.getId())){
-            productsQuantities.put(product.getId(), productsQuantities.get(product.getId()) +1);
+        if(isProductInBasket(product)){
+            increaseProductQuantity(product);
         } else {
-            productsQuantities.put(product.getId(), 1);
+            putProductIntoBasket(product);
         }
+    }
+
+    private void putProductIntoBasket(Product product) {
+        productsQuantities.put(product.getId(), 1);
+        products.put(product.getId(),product);
+    }
+
+    private void increaseProductQuantity(Product product) {
+        productsQuantities.put(product.getId(), productsQuantities.get(product.getId()) + +1);
+    }
+
+    private boolean isProductInBasket(Product product) {
+        return productsQuantities.containsKey(product.getId());
     }
 
     public Integer getProductsCount() {
