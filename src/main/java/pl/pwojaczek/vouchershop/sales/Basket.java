@@ -14,6 +14,10 @@ public class Basket {
         this.productsQuantities = new HashMap<>();
     }
 
+    public static Basket empty() {
+        return new Basket();
+    }
+
     public boolean isEmpty() {
         return products.isEmpty();
     }
