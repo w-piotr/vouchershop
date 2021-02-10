@@ -20,7 +20,7 @@ public class BasketTest {
     @Test
     public void basketWithProductIsNotEmpty() {
         Basket basket = new Basket();
-        Product product = thereIsProduct("lego-8297");
+        Product product = thereIsProduct("item-1111");
 
         basket.add(product);
 
@@ -31,8 +31,8 @@ public class BasketTest {
     @Test
     public void itShowsProductsCount() {
         Basket basket = new Basket();
-        var product1 = thereIsProduct("lego-1111");
-        var product2 = thereIsProduct("lego-2222");
+        var product1 = thereIsProduct("item-1111");
+        var product2 = thereIsProduct("item-2222");
 
         basket.add(product1);
         basket.add(product2);
@@ -44,7 +44,7 @@ public class BasketTest {
     @Test
     public void itShowSingleLineForSameProductAddedTwice() {
         Basket basket = new Basket();
-        var product1 = thereIsProduct("lego-1111");
+        var product1 = thereIsProduct("item-1111");
 
         basket.add(product1);
         basket.add(product1);
@@ -57,8 +57,8 @@ public class BasketTest {
     @Test
     public void itContainsBasketLineQuantity() {
         Basket basket = new Basket();
-        var product1 = thereIsProduct("lego-1111");
-        var product2 = thereIsProduct("lego-2222");
+        var product1 = thereIsProduct("item-1111");
+        var product2 = thereIsProduct("item-2222");
 
         basket.add(product1);
         basket.add(product1);
@@ -72,7 +72,7 @@ public class BasketTest {
     @Test
     public void itAllowsToRemoveProduct(){
         Basket basket = new Basket();
-        var product1 = thereIsProduct("lego-1111");
+        var product1 = thereIsProduct("item-1111");
 
         basket.add(product1);
         basket.add(product1);
@@ -81,9 +81,9 @@ public class BasketTest {
         basket.remove(product1.getId());
     }
 
-    private void basketContainsProductWithQuantity(Basket basket, Product product1, int expectedQuantity) {
+    private void basketContainsProductWithQuantity(Basket basket, Product product, int expectedQuantity) {
         assertThat(basket.getBasketItems())
-                .filteredOn(basketItem -> basketItem.getProductId().equals(product1.getId()))
+                .filteredOn(basketItem -> basketItem.getProductId().equals(product.getId()))
                 .extracting(BasketItem::getQuantity)
                 .first()
                 .isEqualTo(expectedQuantity);
