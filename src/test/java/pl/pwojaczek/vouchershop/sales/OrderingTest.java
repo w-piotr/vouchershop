@@ -5,6 +5,7 @@ import org.junit.Test;
 import pl.pwojaczek.vouchershop.sales.basket.InMemoryBasketStorage;
 import pl.pwojaczek.vouchershop.sales.offering.Offer;
 import pl.pwojaczek.vouchershop.sales.offering.OfferMaker;
+import pl.pwojaczek.vouchershop.sales.offering.ProductCatalogPricingProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

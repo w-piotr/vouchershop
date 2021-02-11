@@ -1,4 +1,4 @@
-package pl.pwojaczek.vouchershop.sales;
+package pl.pwojaczek.vouchershop.sales.offering;
 
 import pl.pwojaczek.vouchershop.catalog.Product;
 import pl.pwojaczek.vouchershop.catalog.ProductCatalog;
