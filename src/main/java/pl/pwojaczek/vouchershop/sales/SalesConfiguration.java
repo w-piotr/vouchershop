@@ -12,7 +12,12 @@ public class SalesConfiguration {
 
     @Bean
     SalesFacade salesFacade(CurrentCustomerContext customerContext, ProductCatalog productCatalog, OfferMaker offerMaker){
-        return new SalesFacade(customerContext, new InMemoryBasketStorage(), productCatalog, offerMaker);
+        return new SalesFacade(customerContext, new InMemoryBasketStorage(), productCatalog, offerMaker, paymentGateway());
+    }
+
+    @Bean
+    PaymentGateway paymentGateway(){
+        return null;
     }
 
     @Bean
