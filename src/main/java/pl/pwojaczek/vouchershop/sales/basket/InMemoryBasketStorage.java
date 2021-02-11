@@ -1,13 +1,13 @@
-package pl.pwojaczek.vouchershop.sales;
+package pl.pwojaczek.vouchershop.sales.basket;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class BasketStorage {
+public class InMemoryBasketStorage {
     private final Map<String, Basket> baskets;
 
-    public BasketStorage(){
+    public InMemoryBasketStorage(){
         this.baskets = new ConcurrentHashMap<>();
     }
 
@@ -15,7 +15,7 @@ public class BasketStorage {
         return Optional.ofNullable(baskets.get(customerId));
     }
 
-    public void addForCustomer(String currentCustomerId, Basket basket) {
-        baskets.put(currentCustomerId, basket);
+    public void addForCustomer(String customerId, Basket basket) {
+        baskets.put(customerId, basket);
     }
 }

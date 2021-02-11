@@ -1,5 +1,5 @@
 package pl.pwojaczek.vouchershop.sales;
 
-public interface CurrentSystemUserContext {
+public interface CurrentCustomerContext {
     String getCustomerId();
 }

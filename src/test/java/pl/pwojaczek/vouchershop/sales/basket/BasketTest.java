@@ -1,7 +1,9 @@
-package pl.pwojaczek.vouchershop.sales;
+package pl.pwojaczek.vouchershop.sales.basket;
 
 import org.junit.Test;
 import pl.pwojaczek.vouchershop.catalog.Product;
+import pl.pwojaczek.vouchershop.sales.basket.Basket;
+import pl.pwojaczek.vouchershop.sales.basket.BasketItem;
 
 import java.util.UUID;
 

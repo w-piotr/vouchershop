@@ -2,31 +2,33 @@ package pl.pwojaczek.vouchershop.sales;
 
 import pl.pwojaczek.vouchershop.catalog.Product;
 import pl.pwojaczek.vouchershop.catalog.ProductCatalog;
+import pl.pwojaczek.vouchershop.sales.basket.Basket;
+import pl.pwojaczek.vouchershop.sales.basket.InMemoryBasketStorage;
 
 public class SalesFacade {
 
-    private final CurrentSystemUserContext currentSystemUserContext;
-    private final BasketStorage basketStorage;
-    private ProductCatalog productCatalog;
+    private final CurrentCustomerContext currentCustomerContext;
+    private final InMemoryBasketStorage inMemoryBasketStorage;
+    private final ProductCatalog productCatalog;
 
-    public SalesFacade(CurrentSystemUserContext currentSystemUserContext, BasketStorage basketStorage, ProductCatalog productCatalog) {
-        this.currentSystemUserContext = currentSystemUserContext;
-        this.basketStorage = basketStorage;
+    public SalesFacade(CurrentCustomerContext currentCustomerContext, InMemoryBasketStorage inMemoryBasketStorage, ProductCatalog productCatalog) {
+        this.currentCustomerContext = currentCustomerContext;
+        this.inMemoryBasketStorage = inMemoryBasketStorage;
         this.productCatalog = productCatalog;
     }
 
     public void addToBasket(String productId) {
-        Basket basket = basketStorage.getBasket(getCurrentCustomerId())
+        Basket basket = inMemoryBasketStorage.getBasket(getCurrentCustomerId())
                 .orElse(Basket.empty());
 
         Product product = productCatalog.load(productId);
 
         basket.add(product);
 
-        basketStorage.addForCustomer(getCurrentCustomerId(), basket);
+        inMemoryBasketStorage.addForCustomer(getCurrentCustomerId(), basket);
     }
 
     private String getCurrentCustomerId() {
-        return currentSystemUserContext.getCustomerId();
+        return currentCustomerContext.getCustomerId();
     }
 }
