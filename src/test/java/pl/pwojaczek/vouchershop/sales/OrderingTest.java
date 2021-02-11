@@ -39,4 +39,21 @@ public class OrderingTest extends SalesTestCase{
 
         assertThat(offer.getTotal()).isEqualTo(BigDecimal.valueOf(40.40));
     }
+
+    @Test
+    public void itCreateReservationBasedOnCurrentOffer(){
+        SalesFacade salesModule = thereIsSalesModule();
+        String productId = thereIsProductAvailable();
+        String customerId = thereIsCustomerWhoIsDoingSomeShoping();
+
+        salesModule.addToBasket(productId);
+        salesModule.addToBasket(productId);
+
+        Offer offer = salesModule.getCurrentOffer();
+
+        PaymentDetails paymentDetails = salesModule.acceptOffer(thereIsExampleClientData());
+        assertThat(paymentDetails.getPaymantUrl()).isNotNull();
+        assertThat(paymentDetails.getPaymentId()).isNotNull();
+        assertThat(paymentDetails.getReservationId()).isNotNull();
+    }
 }
